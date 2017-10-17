@@ -1,0 +1,34 @@
+<div id='login' style='text-align: center'>
+  <div *ngIf="!isConnected">
+    <form name='cred'>
+      <label for='jid'>JID:</label>
+      <input type='text' id='jid' [(ngModel)]="user.jid" name="jid">
+      <label for='pass'>Password:</label>
+      <input type='password' id='pass' [(ngModel)]="user.password" name="password">
+      <input type="button" id="connect" value="connect" (click)="connect()">
+    </form>
+  </div>
+
+  <div *ngIf="isConnected">
+    <input type="button" value="disconnect" (click)="disconnect()">
+  </div>
+
+</div>
+
+<div class="container" *ngIf="isConnected">
+  <h3>Contacts</h3>
+  <ul>
+    <li *ngFor="let contact of contacts">{{contact.jid}}</li>
+  </ul>
+  <input #username>
+  <button (click)="search(username.value)">Search contact</button>
+  <ul>
+    <div *ngFor="let searchContact of searchContacts">
+      <li *ngIf="searchContact.jid !== user.jid">
+        {{searchContact.jid}}
+        <input type="button" value="Subscribe" (click)="subscribe(searchContact.jid)" *ngIf="!searchContact.isSubscribed">
+        <input type="button" value="Unsubscribe" (click)="unsubscribe(searchContact.jid)" *ngIf="searchContact.isSubscribed">
+      </li>
+    </div>
+  </ul>
+</div>
